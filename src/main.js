@@ -9,8 +9,6 @@ import zarroMadagascarInfograficoUrl from './assets/images/zarro-madagascar-info
 import baersPochardInfograficoUrl from './assets/images/baers-pochard-infografico.png?url'
 
 document.querySelector('#app').innerHTML = `
-  <canvas id="three-background" aria-hidden="true"></canvas>
-
   <header class="site-header">
     <a class="brand" href="#inicio" aria-label="Ducklaus World — início">
       <span class="brand-mark" aria-hidden="true">D</span>
@@ -22,21 +20,21 @@ document.querySelector('#app').innerHTML = `
     </button>
 
     <nav class="nav" aria-label="Navegação principal">
-      <a href="#sobre">Quem é</a>
-      <a href="#pato-mergulhao">Mergulhão</a>
-      <a href="#koloa-maoli">Koloa</a>
-      <a href="#arquivo-visual">Arquivo visual</a>
-      <a class="nav-cta" href="#arquivo-visual">Finalizar atlas <span>↗</span></a>
+      <a href="#sobre">Sobre</a>
+      <a href="#pato-mergulhao">Pato-mergulhão</a>
+      <a href="#koloa-maoli">Koloa Maoli</a>
+      <a href="#arquivo-visual">Outras espécies</a>
+      <a class="nav-cta" href="#arquivo-visual">Ver galeria <span>↗</span></a>
     </nav>
   </header>
 
   <main>
-    <section class="hero" id="inicio" data-scene="hero">
+    <section class="hero" id="inicio">
       <div class="hero-stage">
         <div class="hero-film" aria-hidden="true">
           <video
             class="hero-film-video"
-            data-scroll-video="intro"
+            data-loop-video="intro"
             src="${introVideoUrl}"
             preload="auto"
             muted
@@ -48,57 +46,50 @@ document.querySelector('#app').innerHTML = `
 
         <div class="hero-glow"></div>
         <div class="hero-copy reveal">
-          <div class="eyebrow"><span></span> Documentário natural · Arquivo 001</div>
+          <div class="eyebrow"><span></span> Atlas visual de conservação</div>
           <h1>Ducklaus<br><em>World.</em></h1>
-          <p class="hero-tagline">O pato por trás do homem.<br><em>A lenda por trás do bico.</em></p>
-          <p class="hero-description">Explore o mundo secreto dos patos, suas rotas, habitats e curiosidades.</p>
+          <p class="hero-tagline">Patos ameaçados em destaque.</p>
+          <p class="hero-description">Landing page com vídeos, infográficos e dados essenciais sobre habitat, alimentação, distribuição e conservação de espécies selecionadas.</p>
           <div class="hero-actions">
-            <a class="button button-gold" href="#sobre">Entrar no Reino dos Patos <span>↓</span></a>
-            <a class="text-link" href="#pato-mergulhao">Ver mergulhão <span>↗</span></a>
+            <a class="button button-gold" href="#sobre">Conhecer o projeto <span>↓</span></a>
+            <a class="text-link" href="#pato-mergulhao">Ver espécies <span>↗</span></a>
           </div>
         </div>
-
-        <div class="film-meter" aria-hidden="true">
-          <span>FILME 01</span>
-          <i><b data-video-progress></b></i>
-          <span data-video-status>CARREGANDO</span>
-        </div>
-        <div class="scroll-note">ROLE PARA REVELAR <span></span></div>
       </div>
     </section>
 
-    <section class="section about" id="sobre" data-scene="about">
-      <div class="section-number">01 / O ALTER EGO</div>
+    <section class="section about" id="sobre">
+      <div class="section-number">01 / SOBRE O PROJETO</div>
       <div class="about-heading reveal">
-        <p class="kicker">ENTRE O HOMEM E O PATO</p>
-        <h2>Quem é<br><em>Ducklaus?</em></h2>
+        <p class="kicker">OBJETIVO</p>
+        <h2>Sobre o<br><em>projeto.</em></h2>
       </div>
       <div class="about-content reveal">
-        <p class="lead">Ducklaus não é apenas um nome.<br><span>É uma presença.</span></p>
-        <p>Durante o dia, um amigo comum. À noite, um espírito emplumado que observa o mundo com olhos pequenos, julgamento severo e passos suspeitamente elegantes.</p>
-        <p>Entre o homem e o pato existe uma lenda de hábitos aquáticos, silêncio calculado e absoluta confiança no próprio bico.</p>
-        <div class="signature">Ducklaus <small>Presença, lenda & pato extraordinário</small></div>
+        <p class="lead">Ducklaus World é um atlas visual sobre patos ameaçados.</p>
+        <p>A página reúne vídeos, infográficos e informações objetivas sobre espécies de patos de diferentes regiões do mundo.</p>
+        <p>O conteúdo destaca habitat, alimentação, distribuição geográfica e principais ameaças à conservação.</p>
+        <div class="signature">Ducklaus World <small>Atlas visual de espécies aquáticas</small></div>
       </div>
       <div class="manifesto-card glass-card reveal">
         <span class="quote">“</span>
-        <p>O mundo é grande demais para ficar na mesma lagoa.</p>
-        <span class="card-label">MANIFESTO Nº 01</span>
+        <p>Duas espécies com vídeo e uma galeria complementar de infográficos.</p>
+        <span class="card-label">ESCOPO DO SITE</span>
       </div>
     </section>
 
     <section class="mergulhao-story" id="pato-mergulhao" aria-labelledby="mergulhao-title">
       <div class="mergulhao-pin">
         <div class="mergulhao-copy reveal">
-          <p class="kicker">ARQUIVO 002 · RIOS LIMPOS DO BRASIL</p>
+          <p class="kicker">ESPÉCIE EM DESTAQUE · BRASIL</p>
           <h2 id="mergulhao-title">Pato-mergulhão<br><em>brasileiro.</em></h2>
-          <p class="mergulhao-lead">O parente raro de Ducklaus: elegante, veloz no mergulho e exigente com a qualidade da água. Um pato que não aceita lagoa meia-boca.</p>
-          <p>Agora o filme passa sozinho em loop, como um pequeno documentário dentro da página. Você rola normalmente e deixa o mergulhão fazer a pose de ave rara.</p>
+          <p class="mergulhao-lead">Espécie brasileira criticamente ameaçada, associada a rios limpos, frios, rápidos e bem preservados.</p>
+          <p>A seção apresenta vídeo, infográfico e dados básicos sobre habitat, dieta, comportamento e conservação.</p>
         </div>
 
         <div class="mergulhao-media reveal">
           <video
             class="mergulhao-video"
-            data-scroll-video="mergulhao"
+            data-loop-video="mergulhao"
             src="${mergulhaoVideoUrl}"
             preload="auto"
             autoplay
@@ -108,11 +99,6 @@ document.querySelector('#app').innerHTML = `
             disablepictureinpicture
           ></video>
           <div class="mergulhao-video-glass" aria-hidden="true"></div>
-          <div class="mergulhao-video-label">
-            <span>FILME 02</span>
-            <i><b data-mergulhao-progress></b></i>
-            <span data-mergulhao-status>CARREGANDO</span>
-          </div>
         </div>
 
         <button
@@ -123,11 +109,11 @@ document.querySelector('#app').innerHTML = `
           aria-label="Abrir infográfico completo do pato-mergulhão brasileiro"
         >
           <img src="${mergulhaoInfograficoUrl}" alt="Infográfico visual do pato-mergulhão brasileiro" loading="lazy">
-          <span class="poster-hint">Clique para ampliar</span>
+          <span class="poster-hint">Ampliar imagem</span>
         </button>
 
-        <div class="mergulhao-facts" aria-label="Curiosidades sobre o pato-mergulhão brasileiro">
-          <article class="mergulhao-card glass-card reveal is-active">
+        <div class="mergulhao-facts" aria-label="Informações sobre o pato-mergulhão brasileiro">
+          <article class="mergulhao-card glass-card reveal">
             <span>01</span>
             <h3>Onde vive</h3>
             <p>Prefere rios cristalinos, rasos e com correnteza, geralmente em regiões serranas com mata ciliar preservada.</p>
@@ -135,17 +121,17 @@ document.querySelector('#app').innerHTML = `
           <article class="mergulhao-card glass-card reveal">
             <span>02</span>
             <h3>O que come</h3>
-            <p>Caça principalmente pequenos peixes, como lambaris, e também pode capturar insetos aquáticos e pequenos invertebrados.</p>
+            <p>Alimenta-se principalmente de pequenos peixes e também pode capturar insetos aquáticos e outros invertebrados.</p>
           </article>
           <article class="mergulhao-card glass-card reveal">
             <span>03</span>
-            <h3>Superpoder</h3>
-            <p>Mergulha para buscar alimento em água limpa. Se o rio está turvo ou degradado, a vida dele fica muito mais difícil.</p>
+            <h3>Comportamento</h3>
+            <p>Mergulha para capturar alimento em água limpa, usando o corpo alongado e o bico estreito para buscar presas.</p>
           </article>
           <article class="mergulhao-card glass-card reveal">
             <span>04</span>
-            <h3>Raridade real</h3>
-            <p>É uma das aves aquáticas mais raras e ameaçadas das Américas. No universo Ducklaus, isso é status de nobreza fluvial.</p>
+            <h3>Conservação</h3>
+            <p>É uma das aves aquáticas mais raras das Américas e depende da preservação de rios saudáveis.</p>
           </article>
         </div>
       </div>
@@ -154,15 +140,15 @@ document.querySelector('#app').innerHTML = `
     <section class="koloa-story" id="koloa-maoli" aria-labelledby="koloa-title">
       <div class="koloa-shell">
         <div class="koloa-header reveal">
-          <p class="kicker">ARQUIVO 003 · ILHAS DO HAVAÍ</p>
+          <p class="kicker">ESPÉCIE EM DESTAQUE · HAVAÍ</p>
           <h2 id="koloa-title">Koloa Maoli<br><em>pato-havaiano.</em></h2>
-          <p>Um pato de superfície, endêmico do Havaí, que parece ter saído de um cartaz antigo de expedição científica. Elegante, discreto e oficialmente cheio de problemas causados por humanos — bem Ducklaus em modo denúncia tropical.</p>
+          <p>Pato de superfície endêmico do Havaí. A seção resume habitat, alimentação, comportamento e principais ameaças à conservação da espécie.</p>
         </div>
 
         <div class="koloa-media reveal">
           <video
             class="koloa-video"
-            data-scroll-video="koloa"
+            data-loop-video="koloa"
             src="${koloaVideoUrl}"
             preload="auto"
             autoplay
@@ -172,11 +158,6 @@ document.querySelector('#app').innerHTML = `
             disablepictureinpicture
           ></video>
           <div class="koloa-video-frame" aria-hidden="true"></div>
-          <div class="koloa-video-label">
-            <span>FILME 03</span>
-            <i><b data-koloa-progress></b></i>
-            <span data-koloa-status>CARREGANDO</span>
-          </div>
         </div>
 
         <button
@@ -187,7 +168,7 @@ document.querySelector('#app').innerHTML = `
           aria-label="Abrir infográfico completo do Koloa Maoli"
         >
           <img src="${koloaInfograficoUrl}" alt="Infográfico visual do pato-havaiano Koloa Maoli" loading="lazy">
-          <span class="poster-hint">Clique para ampliar</span>
+          <span class="poster-hint">Ampliar imagem</span>
         </button>
 
         <div class="koloa-facts">
@@ -203,13 +184,13 @@ document.querySelector('#app').innerHTML = `
           </article>
           <article class="koloa-card glass-card reveal">
             <span>03</span>
-            <h3>Como se alimenta</h3>
-            <p>É um pato de superfície: filtra alimento na água e pode inclinar o corpo, deixando a cauda para cima, sem precisar mergulhar fundo.</p>
+            <h3>Alimentação</h3>
+            <p>Filtra alimento na água e pode inclinar o corpo, deixando a cauda para cima, sem precisar mergulhar fundo.</p>
           </article>
           <article class="koloa-card glass-card reveal danger">
             <span>04</span>
-            <h3>Grande ameaça</h3>
-            <p>A hibridização com marrecos-domésticos/mallards introduzidos é uma das maiores ameaças à identidade genética da espécie.</p>
+            <h3>Ameaça</h3>
+            <p>A hibridização com marrecos-domésticos introduzidos é uma das principais ameaças à identidade genética da espécie.</p>
           </article>
         </div>
       </div>
@@ -217,9 +198,9 @@ document.querySelector('#app').innerHTML = `
 
     <section class="visual-archive" id="arquivo-visual" aria-labelledby="visual-archive-title">
       <div class="visual-archive-heading reveal">
-        <p class="kicker">ARQUIVO VISUAL · ESPÉCIES SEM FILME</p>
-        <h2 id="visual-archive-title">Outros patos<br><em>em dossiê.</em></h2>
-        <p>Sem vídeo por enquanto: só o essencial, em fila, para fechar o atlas Ducklaus com aquele ar de coleção científica que se leva sério demais — do jeitinho certo.</p>
+        <p class="kicker">OUTRAS ESPÉCIES</p>
+        <h2 id="visual-archive-title">Galeria de<br><em>infográficos.</em></h2>
+        <p>Infográficos complementares com informações básicas sobre espécies ameaçadas. Clique em cada imagem para visualizar em tela cheia.</p>
       </div>
 
       <div class="archive-row" aria-label="Infográficos de outros patos ameaçados">
@@ -232,7 +213,7 @@ document.querySelector('#app').innerHTML = `
             aria-label="Abrir infográfico completo do merganso-escamoso"
           >
             <img src="${mergansoEscamosoInfograficoUrl}" alt="Infográfico do merganso-escamoso" loading="lazy">
-            <span class="poster-hint">Clique para ampliar</span>
+            <span class="poster-hint">Ampliar imagem</span>
           </button>
           <div class="archive-card-copy">
             <span>Japão e Leste Asiático</span>
@@ -250,7 +231,7 @@ document.querySelector('#app').innerHTML = `
             aria-label="Abrir infográfico completo do zarro-de-madagáscar"
           >
             <img src="${zarroMadagascarInfograficoUrl}" alt="Infográfico do zarro-de-madagáscar" loading="lazy">
-            <span class="poster-hint">Clique para ampliar</span>
+            <span class="poster-hint">Ampliar imagem</span>
           </button>
           <div class="archive-card-copy">
             <span>Madagáscar</span>
@@ -268,7 +249,7 @@ document.querySelector('#app').innerHTML = `
             aria-label="Abrir infográfico completo do Baer's Pochard"
           >
             <img src="${baersPochardInfograficoUrl}" alt="Infográfico do Baer's Pochard" loading="lazy">
-            <span class="poster-hint">Clique para ampliar</span>
+            <span class="poster-hint">Ampliar imagem</span>
           </button>
           <div class="archive-card-copy">
             <span>Ásia Oriental</span>
@@ -356,39 +337,22 @@ const observer = new IntersectionObserver((entries) => {
 
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element))
 
-const startStoryExperience = async () => {
-  const [{ initThreeScene }, { createLoopingVideo }] = await Promise.all([
-    import('./threeScene.js'),
-    import('./videoStory.js'),
-  ])
+const startVideoLoops = async () => {
+  const { createLoopingVideo } = await import('./videoStory.js')
 
-  const sceneController = initThreeScene(document.querySelector('#three-background'))
-  const introVideo = createLoopingVideo(document.querySelector('[data-scroll-video="intro"]'), {
-    progressElement: document.querySelector('[data-video-progress]'),
-    statusElement: document.querySelector('[data-video-status]'),
-    endAt: 7.26,
-  })
-  const mergulhaoVideo = createLoopingVideo(document.querySelector('[data-scroll-video="mergulhao"]'), {
-    progressElement: document.querySelector('[data-mergulhao-progress]'),
-    progressProperty: '--mergulhao-progress',
-    statusElement: document.querySelector('[data-mergulhao-status]'),
-  })
-  const koloaVideo = createLoopingVideo(document.querySelector('[data-scroll-video="koloa"]'), {
-    progressElement: document.querySelector('[data-koloa-progress]'),
-    progressProperty: '--koloa-progress',
-    statusElement: document.querySelector('[data-koloa-status]'),
-  })
+  const introVideo = createLoopingVideo(document.querySelector('[data-loop-video="intro"]'), { endAt: 7.26 })
+  const mergulhaoVideo = createLoopingVideo(document.querySelector('[data-loop-video="mergulhao"]'), { progressProperty: null })
+  const koloaVideo = createLoopingVideo(document.querySelector('[data-loop-video="koloa"]'), { progressProperty: null })
 
   window.addEventListener('pagehide', () => {
     introVideo.destroy()
     mergulhaoVideo.destroy()
     koloaVideo.destroy()
-    sceneController?.destroy()
   }, { once: true })
 }
 
 if ('requestIdleCallback' in window) {
-  window.requestIdleCallback(startStoryExperience, { timeout: 600 })
+  window.requestIdleCallback(startVideoLoops, { timeout: 600 })
 } else {
-  window.setTimeout(startStoryExperience, 0)
+  window.setTimeout(startVideoLoops, 0)
 }

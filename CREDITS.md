@@ -1,21 +1,11 @@
 # Ducklaus World — Créditos
 
-## Imagem de referência
+## Assets visuais
 
-- Conceito cinematográfico de Ducklaus gerado com OpenAI Image Generation para uso como referência e fallback sem WebGL.
+- Vídeos e infográficos usados no site foram fornecidos para este projeto e organizados em `src/assets/`.
+- Os infográficos podem ser visualizados em tela cheia dentro da própria página.
 
-## Modelos 3D
+## Conteúdo
 
-O projeto está preparado para receber os modelos abaixo em `src/assets/models/`:
-
-- `ducklaus.glb`
-- `america-do-norte.glb`
-- `america-do-sul.glb`
-- `europa.glb`
-- `africa.glb`
-- `asia.glb`
-- `oceania.glb`
-
-Enquanto os GLBs não forem produzidos, a experiência usa patos procedurais criados com primitivas Three.js.
-
-Quando os modelos forem gerados no plano gratuito do Meshy, registrar aqui a URL de origem de cada asset e manter a atribuição exigida pela licença CC BY 4.0.
+- Textos finais revisados para uso em apresentação comercial.
+- Informações resumidas por espécie: habitat, alimentação, comportamento, distribuição e conservação.
