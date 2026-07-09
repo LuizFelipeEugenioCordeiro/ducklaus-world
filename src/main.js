@@ -78,13 +78,13 @@ document.querySelector('#app').innerHTML = `
       </div>
     </section>
 
-    <section class="mergulhao-story" id="pato-mergulhao" aria-labelledby="mergulhao-title" data-scroll-video-section>
+    <section class="mergulhao-story" id="pato-mergulhao" aria-labelledby="mergulhao-title">
       <div class="mergulhao-pin">
         <div class="mergulhao-copy reveal">
           <p class="kicker">ARQUIVO 002 · RIOS LIMPOS DO BRASIL</p>
           <h2 id="mergulhao-title">Pato-mergulhão<br><em>brasileiro.</em></h2>
           <p class="mergulhao-lead">O parente raro de Ducklaus: elegante, veloz no mergulho e exigente com a qualidade da água. Um pato que não aceita lagoa meia-boca.</p>
-          <p>Enquanto a página desce, o filme avança junto. A ideia é parecer um mini-documentário rolável: você explora o animal no ritmo do mouse.</p>
+          <p>Agora o filme passa sozinho em loop, como um pequeno documentário dentro da página. Você rola normalmente e deixa o mergulhão fazer a pose de ave rara.</p>
         </div>
 
         <div class="mergulhao-media reveal">
@@ -92,7 +92,9 @@ document.querySelector('#app').innerHTML = `
             class="mergulhao-video"
             data-scroll-video="mergulhao"
             src="${mergulhaoVideoUrl}"
-            preload="metadata"
+            preload="auto"
+            autoplay
+            loop
             muted
             playsinline
             disablepictureinpicture
@@ -101,7 +103,7 @@ document.querySelector('#app').innerHTML = `
           <div class="mergulhao-video-label">
             <span>FILME 02</span>
             <i><b data-mergulhao-progress></b></i>
-            <span data-mergulhao-status>0%</span>
+            <span data-mergulhao-status>CARREGANDO</span>
           </div>
         </div>
 
@@ -158,7 +160,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element))
 
 const startStoryExperience = async () => {
-  const [{ initThreeScene }, { createLoopingVideo, createVideoScrubber, createScrollVideoController }] = await Promise.all([
+  const [{ initThreeScene }, { createLoopingVideo }] = await Promise.all([
     import('./threeScene.js'),
     import('./videoStory.js'),
   ])
@@ -169,20 +171,15 @@ const startStoryExperience = async () => {
     statusElement: document.querySelector('[data-video-status]'),
     endAt: 7.26,
   })
-  const mergulhaoScrubber = createVideoScrubber(document.querySelector('[data-scroll-video="mergulhao"]'), {
+  const mergulhaoVideo = createLoopingVideo(document.querySelector('[data-scroll-video="mergulhao"]'), {
+    progressElement: document.querySelector('[data-mergulhao-progress]'),
     progressProperty: '--mergulhao-progress',
     statusElement: document.querySelector('[data-mergulhao-status]'),
-  })
-  const destroyMergulhaoScroll = createScrollVideoController(document.querySelector('[data-scroll-video-section]'), mergulhaoScrubber, {
-    progressElement: document.querySelector('[data-mergulhao-progress]'),
-    statusElement: document.querySelector('[data-mergulhao-status]'),
-    activeSelector: '.mergulhao-card',
   })
 
   window.addEventListener('pagehide', () => {
     introVideo.destroy()
-    destroyMergulhaoScroll()
-    mergulhaoScrubber.destroy()
+    mergulhaoVideo.destroy()
     sceneController?.destroy()
   }, { once: true })
 }

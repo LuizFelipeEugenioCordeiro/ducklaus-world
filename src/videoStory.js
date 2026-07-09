@@ -14,6 +14,7 @@ export function createLoopingVideo(video, {
 
   const updateProgress = () => {
     if (!rangeEnd) return
+
     if (video.currentTime >= rangeEnd) {
       video.currentTime = startAt
       if (!reducedMotion) video.play().catch(() => {})
@@ -53,126 +54,5 @@ export function createLoopingVideo(video, {
       video.removeEventListener('error', handleError)
       if (progressProperty) document.documentElement.style.removeProperty(progressProperty)
     },
-  }
-}
-
-export function createVideoScrubber(video, {
-  progressElement,
-  statusElement,
-  progressProperty = '--intro-progress',
-  startAt = 0.01,
-  endAt,
-} = {}) {
-  if (!video) return { setProgress() {}, destroy() {} }
-
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  let duration = 0
-  let rangeEnd = 0
-  let progress = 0
-  let frame = 0
-  let destroyed = false
-
-  const render = () => {
-    frame = 0
-    if (destroyed) return
-
-    const safeProgress = reducedMotion ? 0 : clamp(progress)
-    if (progressProperty) document.documentElement.style.setProperty(progressProperty, safeProgress)
-    if (progressElement) progressElement.style.transform = `scaleX(${safeProgress})`
-
-    if (!duration || video.readyState < HTMLMediaElement.HAVE_METADATA) return
-    const rangeStart = Math.min(Math.max(0.01, startAt), rangeEnd)
-    const targetTime = rangeStart + (rangeEnd - rangeStart) * safeProgress
-    if (Math.abs(video.currentTime - targetTime) > 0.025) video.currentTime = targetTime
-  }
-
-  const requestRender = () => {
-    if (!frame) frame = window.requestAnimationFrame(render)
-  }
-
-  const handleMetadata = () => {
-    duration = Number.isFinite(video.duration) ? video.duration : 0
-    rangeEnd = Math.max(0.01, Math.min(duration - 0.02, endAt ?? duration - 0.02))
-    video.pause()
-    if (duration && video.currentTime === 0) video.currentTime = Math.min(startAt, rangeEnd)
-    document.documentElement.classList.add('intro-video-ready')
-    if (statusElement) statusElement.textContent = duration ? `${rangeEnd.toFixed(1)} SEG` : 'PRONTO'
-    requestRender()
-  }
-
-  const handleError = () => {
-    document.documentElement.classList.add('intro-video-error')
-    if (statusElement) statusElement.textContent = 'IMAGEM RESERVA'
-  }
-
-  video.addEventListener('loadedmetadata', handleMetadata)
-  video.addEventListener('error', handleError)
-  video.load()
-  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) handleMetadata()
-
-  return {
-    setProgress(nextProgress) {
-      progress = nextProgress
-      requestRender()
-    },
-    destroy() {
-      destroyed = true
-      window.cancelAnimationFrame(frame)
-      video.removeEventListener('loadedmetadata', handleMetadata)
-      video.removeEventListener('error', handleError)
-      video.pause()
-      video.removeAttribute('src')
-      video.load()
-      if (progressProperty) document.documentElement.style.removeProperty(progressProperty)
-    },
-  }
-}
-
-export function createScrollVideoController(section, scrubber, {
-  progressElement,
-  statusElement,
-  activeSelector,
-} = {}) {
-  if (!section || !scrubber) return () => {}
-
-  const cards = activeSelector ? [...section.querySelectorAll(activeSelector)] : []
-  let frame = 0
-  let destroyed = false
-
-  const setActiveCard = (progress) => {
-    if (!cards.length) return
-    const activeIndex = Math.min(cards.length - 1, Math.floor(progress * cards.length))
-    cards.forEach((card, index) => card.classList.toggle('is-active', index === activeIndex))
-  }
-
-  const update = () => {
-    frame = 0
-    if (destroyed) return
-
-    const rect = section.getBoundingClientRect()
-    const scrollableDistance = Math.max(rect.height - window.innerHeight, 1)
-    const progress = clamp(-rect.top / scrollableDistance)
-
-    section.style.setProperty('--mergulhao-progress', progress.toFixed(4))
-    if (progressElement) progressElement.style.transform = `scaleX(${progress})`
-    if (statusElement) statusElement.textContent = `${Math.round(progress * 100)}%`
-
-    setActiveCard(progress)
-    scrubber.setProgress(progress)
-  }
-
-  const requestUpdate = () => {
-    if (!frame) frame = window.requestAnimationFrame(update)
-  }
-
-  window.addEventListener('scroll', requestUpdate, { passive: true })
-  window.addEventListener('resize', requestUpdate)
-  requestUpdate()
-
-  return () => {
-    destroyed = true
-    window.cancelAnimationFrame(frame)
-    window.removeEventListener('scroll', requestUpdate)
-    window.removeEventListener('resize', requestUpdate)
   }
 }
