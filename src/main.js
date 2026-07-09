@@ -1,6 +1,8 @@
 import './style.css'
 import introVideoUrl from './assets/videos/ducklaus-intro.mp4?url'
 import mergulhaoVideoUrl from './assets/videos/pato-mergulhao-brasileiro.mp4?url'
+import koloaVideoUrl from './assets/videos/koloa-maoli.mp4?url'
+import koloaInfograficoUrl from './assets/images/koloa-maoli-infografico.png?url'
 
 document.querySelector('#app').innerHTML = `
   <canvas id="three-background" aria-hidden="true"></canvas>
@@ -18,7 +20,8 @@ document.querySelector('#app').innerHTML = `
     <nav class="nav" aria-label="Navegação principal">
       <a href="#sobre">Quem é</a>
       <a href="#pato-mergulhao">Mergulhão</a>
-      <a class="nav-cta" href="#pato-mergulhao">Arquivo 002 <span>↗</span></a>
+      <a href="#koloa-maoli">Koloa</a>
+      <a class="nav-cta" href="#koloa-maoli">Arquivo 003 <span>↗</span></a>
     </nav>
   </header>
 
@@ -131,6 +134,63 @@ document.querySelector('#app').innerHTML = `
         </div>
       </div>
     </section>
+
+    <section class="koloa-story" id="koloa-maoli" aria-labelledby="koloa-title">
+      <div class="koloa-shell">
+        <div class="koloa-header reveal">
+          <p class="kicker">ARQUIVO 003 · ILHAS DO HAVAÍ</p>
+          <h2 id="koloa-title">Koloa Maoli<br><em>pato-havaiano.</em></h2>
+          <p>Um pato de superfície, endêmico do Havaí, que parece ter saído de um cartaz antigo de expedição científica. Elegante, discreto e oficialmente cheio de problemas causados por humanos — bem Ducklaus em modo denúncia tropical.</p>
+        </div>
+
+        <div class="koloa-media reveal">
+          <video
+            class="koloa-video"
+            data-scroll-video="koloa"
+            src="${koloaVideoUrl}"
+            preload="auto"
+            autoplay
+            loop
+            muted
+            playsinline
+            disablepictureinpicture
+          ></video>
+          <div class="koloa-video-frame" aria-hidden="true"></div>
+          <div class="koloa-video-label">
+            <span>FILME 03</span>
+            <i><b data-koloa-progress></b></i>
+            <span data-koloa-status>CARREGANDO</span>
+          </div>
+        </div>
+
+        <aside class="koloa-poster glass-card reveal" aria-label="Infográfico do Koloa Maoli">
+          <img src="${koloaInfograficoUrl}" alt="Infográfico visual do pato-havaiano Koloa Maoli" loading="lazy">
+        </aside>
+
+        <div class="koloa-facts">
+          <article class="koloa-card glass-card reveal">
+            <span>01</span>
+            <h3>Onde vive</h3>
+            <p>É endêmico do Havaí e usa áreas úmidas, pântanos, lagoas, campos alagados, riachos e plantações de taro.</p>
+          </article>
+          <article class="koloa-card glass-card reveal">
+            <span>02</span>
+            <h3>O que come</h3>
+            <p>Alimenta-se de vegetação de água doce, sementes, moluscos, insetos e outros pequenos invertebrados aquáticos.</p>
+          </article>
+          <article class="koloa-card glass-card reveal">
+            <span>03</span>
+            <h3>Como se alimenta</h3>
+            <p>É um pato de superfície: filtra alimento na água e pode inclinar o corpo, deixando a cauda para cima, sem precisar mergulhar fundo.</p>
+          </article>
+          <article class="koloa-card glass-card reveal danger">
+            <span>04</span>
+            <h3>Grande ameaça</h3>
+            <p>A hibridização com marrecos-domésticos/mallards introduzidos é uma das maiores ameaças à identidade genética da espécie.</p>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 `
 
@@ -176,10 +236,16 @@ const startStoryExperience = async () => {
     progressProperty: '--mergulhao-progress',
     statusElement: document.querySelector('[data-mergulhao-status]'),
   })
+  const koloaVideo = createLoopingVideo(document.querySelector('[data-scroll-video="koloa"]'), {
+    progressElement: document.querySelector('[data-koloa-progress]'),
+    progressProperty: '--koloa-progress',
+    statusElement: document.querySelector('[data-koloa-status]'),
+  })
 
   window.addEventListener('pagehide', () => {
     introVideo.destroy()
     mergulhaoVideo.destroy()
+    koloaVideo.destroy()
     sceneController?.destroy()
   }, { once: true })
 }
