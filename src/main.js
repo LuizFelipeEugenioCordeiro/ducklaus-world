@@ -4,6 +4,9 @@ import mergulhaoVideoUrl from './assets/videos/pato-mergulhao-brasileiro.mp4?url
 import mergulhaoInfograficoUrl from './assets/images/pato-mergulhao-infografico.png?url'
 import koloaVideoUrl from './assets/videos/koloa-maoli.mp4?url'
 import koloaInfograficoUrl from './assets/images/koloa-maoli-infografico.png?url'
+import mergansoEscamosoInfograficoUrl from './assets/images/merganso-escamoso-infografico.png?url'
+import zarroMadagascarInfograficoUrl from './assets/images/zarro-madagascar-infografico.png?url'
+import baersPochardInfograficoUrl from './assets/images/baers-pochard-infografico.png?url'
 
 document.querySelector('#app').innerHTML = `
   <canvas id="three-background" aria-hidden="true"></canvas>
@@ -22,7 +25,8 @@ document.querySelector('#app').innerHTML = `
       <a href="#sobre">Quem é</a>
       <a href="#pato-mergulhao">Mergulhão</a>
       <a href="#koloa-maoli">Koloa</a>
-      <a class="nav-cta" href="#koloa-maoli">Arquivo 003 <span>↗</span></a>
+      <a href="#arquivo-visual">Arquivo visual</a>
+      <a class="nav-cta" href="#arquivo-visual">Finalizar atlas <span>↗</span></a>
     </nav>
   </header>
 
@@ -208,6 +212,70 @@ document.querySelector('#app').innerHTML = `
             <p>A hibridização com marrecos-domésticos/mallards introduzidos é uma das maiores ameaças à identidade genética da espécie.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section class="visual-archive" id="arquivo-visual" aria-labelledby="visual-archive-title">
+      <div class="visual-archive-heading reveal">
+        <p class="kicker">ARQUIVO VISUAL · ESPÉCIES SEM FILME</p>
+        <h2 id="visual-archive-title">Outros patos<br><em>em dossiê.</em></h2>
+        <p>Sem vídeo por enquanto: só o essencial, em fila, para fechar o atlas Ducklaus com aquele ar de coleção científica que se leva sério demais — do jeitinho certo.</p>
+      </div>
+
+      <div class="archive-row" aria-label="Infográficos de outros patos ameaçados">
+        <article class="archive-card reveal">
+          <button
+            class="species-poster archive-poster glass-card"
+            type="button"
+            data-lightbox-src="${mergansoEscamosoInfograficoUrl}"
+            data-lightbox-title="Merganso-escamoso — infográfico completo"
+            aria-label="Abrir infográfico completo do merganso-escamoso"
+          >
+            <img src="${mergansoEscamosoInfograficoUrl}" alt="Infográfico do merganso-escamoso" loading="lazy">
+            <span class="poster-hint">Clique para ampliar</span>
+          </button>
+          <div class="archive-card-copy">
+            <span>Japão e Leste Asiático</span>
+            <h3>Merganso-escamoso</h3>
+            <p>Vive em rios claros e arborizados. Dieta com peixes pequenos, insetos aquáticos e crustáceos.</p>
+          </div>
+        </article>
+
+        <article class="archive-card reveal">
+          <button
+            class="species-poster archive-poster glass-card"
+            type="button"
+            data-lightbox-src="${zarroMadagascarInfograficoUrl}"
+            data-lightbox-title="Zarro-de-madagáscar — infográfico completo"
+            aria-label="Abrir infográfico completo do zarro-de-madagáscar"
+          >
+            <img src="${zarroMadagascarInfograficoUrl}" alt="Infográfico do zarro-de-madagáscar" loading="lazy">
+            <span class="poster-hint">Clique para ampliar</span>
+          </button>
+          <div class="archive-card-copy">
+            <span>Madagáscar</span>
+            <h3>Zarro-de-madagáscar</h3>
+            <p>Habita lagos profundos de origem vulcânica. Alimenta-se de insetos, larvas e invertebrados de água doce.</p>
+          </div>
+        </article>
+
+        <article class="archive-card reveal">
+          <button
+            class="species-poster archive-poster glass-card"
+            type="button"
+            data-lightbox-src="${baersPochardInfograficoUrl}"
+            data-lightbox-title="Baer's Pochard — infográfico completo"
+            aria-label="Abrir infográfico completo do Baer's Pochard"
+          >
+            <img src="${baersPochardInfograficoUrl}" alt="Infográfico do Baer's Pochard" loading="lazy">
+            <span class="poster-hint">Clique para ampliar</span>
+          </button>
+          <div class="archive-card-copy">
+            <span>Ásia Oriental</span>
+            <h3>Baer's Pochard</h3>
+            <p>Prefere lagos rasos, brejos e vegetação densa. Come sementes, plantas aquáticas, moluscos e invertebrados.</p>
+          </div>
+        </article>
       </div>
     </section>
   </main>
