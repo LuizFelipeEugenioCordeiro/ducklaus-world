@@ -1,6 +1,7 @@
 import './style.css'
 import introVideoUrl from './assets/videos/ducklaus-intro.mp4?url'
 import mergulhaoVideoUrl from './assets/videos/pato-mergulhao-brasileiro.mp4?url'
+import mergulhaoInfograficoUrl from './assets/images/pato-mergulhao-infografico.png?url'
 import koloaVideoUrl from './assets/videos/koloa-maoli.mp4?url'
 import koloaInfograficoUrl from './assets/images/koloa-maoli-infografico.png?url'
 
@@ -110,6 +111,17 @@ document.querySelector('#app').innerHTML = `
           </div>
         </div>
 
+        <button
+          class="species-poster mergulhao-poster glass-card reveal"
+          type="button"
+          data-lightbox-src="${mergulhaoInfograficoUrl}"
+          data-lightbox-title="Pato-mergulhão brasileiro — infográfico completo"
+          aria-label="Abrir infográfico completo do pato-mergulhão brasileiro"
+        >
+          <img src="${mergulhaoInfograficoUrl}" alt="Infográfico visual do pato-mergulhão brasileiro" loading="lazy">
+          <span class="poster-hint">Clique para ampliar</span>
+        </button>
+
         <div class="mergulhao-facts" aria-label="Curiosidades sobre o pato-mergulhão brasileiro">
           <article class="mergulhao-card glass-card reveal is-active">
             <span>01</span>
@@ -163,9 +175,16 @@ document.querySelector('#app').innerHTML = `
           </div>
         </div>
 
-        <aside class="koloa-poster glass-card reveal" aria-label="Infográfico do Koloa Maoli">
+        <button
+          class="species-poster koloa-poster glass-card reveal"
+          type="button"
+          data-lightbox-src="${koloaInfograficoUrl}"
+          data-lightbox-title="Koloa Maoli — infográfico completo"
+          aria-label="Abrir infográfico completo do Koloa Maoli"
+        >
           <img src="${koloaInfograficoUrl}" alt="Infográfico visual do pato-havaiano Koloa Maoli" loading="lazy">
-        </aside>
+          <span class="poster-hint">Clique para ampliar</span>
+        </button>
 
         <div class="koloa-facts">
           <article class="koloa-card glass-card reveal">
@@ -192,6 +211,15 @@ document.querySelector('#app').innerHTML = `
       </div>
     </section>
   </main>
+
+  <div class="image-lightbox" data-lightbox aria-hidden="true">
+    <button class="image-lightbox-backdrop" type="button" data-lightbox-close aria-label="Fechar imagem ampliada"></button>
+    <figure class="image-lightbox-panel" role="dialog" aria-modal="true" aria-label="Imagem ampliada">
+      <button class="image-lightbox-close" type="button" data-lightbox-close aria-label="Fechar">×</button>
+      <img data-lightbox-image src="" alt="">
+      <figcaption data-lightbox-caption></figcaption>
+    </figure>
+  </div>
 `
 
 const menuButton = document.querySelector('.menu-toggle')
@@ -207,6 +235,47 @@ document.querySelectorAll('.nav a').forEach((link) => link.addEventListener('cli
   menuButton.setAttribute('aria-expanded', 'false')
   nav.classList.remove('is-open')
 }))
+
+const lightbox = document.querySelector('[data-lightbox]')
+const lightboxImage = document.querySelector('[data-lightbox-image]')
+const lightboxCaption = document.querySelector('[data-lightbox-caption]')
+const lightboxCloseButton = document.querySelector('.image-lightbox-close')
+let lastFocusedElement = null
+
+const closeLightbox = () => {
+  if (!lightbox.classList.contains('is-open')) return
+  lightbox.classList.remove('is-open')
+  lightbox.setAttribute('aria-hidden', 'true')
+  document.body.classList.remove('lightbox-open')
+  lightboxImage.removeAttribute('src')
+  lightboxImage.alt = ''
+  lightboxCaption.textContent = ''
+  lastFocusedElement?.focus()
+}
+
+const openLightbox = (trigger) => {
+  lastFocusedElement = document.activeElement
+  const thumbnail = trigger.querySelector('img')
+  lightboxImage.src = trigger.dataset.lightboxSrc
+  lightboxImage.alt = thumbnail?.alt ?? trigger.dataset.lightboxTitle ?? 'Imagem ampliada'
+  lightboxCaption.textContent = trigger.dataset.lightboxTitle ?? ''
+  document.body.classList.add('lightbox-open')
+  lightbox.setAttribute('aria-hidden', 'false')
+  lightbox.classList.add('is-open')
+  lightboxCloseButton.focus()
+}
+
+document.querySelectorAll('[data-lightbox-src]').forEach((trigger) => {
+  trigger.addEventListener('click', () => openLightbox(trigger))
+})
+
+document.querySelectorAll('[data-lightbox-close]').forEach((button) => {
+  button.addEventListener('click', closeLightbox)
+})
+
+window.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') closeLightbox()
+})
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {

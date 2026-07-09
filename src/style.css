@@ -157,10 +157,11 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
   position: relative;
   min-height: auto;
   display: grid;
-  grid-template-columns: minmax(290px, .8fr) minmax(420px, 1.2fr);
+  grid-template-columns: minmax(360px, 1.05fr) minmax(260px, .58fr);
   grid-template-areas:
-    "copy media"
-    "facts media";
+    "copy poster"
+    "media poster"
+    "facts facts";
   align-content: center;
   gap: clamp(18px, 3.4vw, 54px);
   padding: 104px clamp(24px, 8vw, 130px) 44px;
@@ -196,7 +197,7 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
 .mergulhao-video {
   display: block;
   width: 100%;
-  height: min(62svh, 600px);
+  height: min(56svh, 560px);
   object-fit: cover;
   background: #020b13;
 }
@@ -242,7 +243,7 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
 .mergulhao-facts {
   grid-area: facts;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   align-self: start;
 }
@@ -281,6 +282,74 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
   color: #9fb1bf;
   font-size: 10.5px;
   line-height: 1.68;
+}
+.species-poster {
+  position: relative;
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  padding: 10px;
+  font: inherit;
+  text-align: left;
+  border-radius: 0;
+  cursor: zoom-in;
+  appearance: none;
+}
+.species-poster img {
+  display: block;
+  width: 100%;
+  border: 1px solid rgba(255,255,255,.16);
+  transition: transform .45s cubic-bezier(.2,.8,.2,1), filter .35s ease;
+}
+.species-poster:hover img,
+.species-poster:focus-visible img {
+  transform: scale(1.025);
+  filter: saturate(1.05) contrast(1.03);
+}
+.species-poster:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 5px;
+}
+.poster-hint {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 22px;
+  z-index: 3;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  color: #f8f1df;
+  background: rgba(6,22,39,.78);
+  border: 1px solid rgba(240,209,140,.28);
+  backdrop-filter: blur(10px);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  opacity: .88;
+  transition: transform .28s ease, opacity .28s ease;
+}
+.poster-hint::after { content: '↗'; color: var(--gold-light); font-size: 12px; }
+.species-poster:hover .poster-hint,
+.species-poster:focus-visible .poster-hint {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+.mergulhao-poster {
+  grid-area: poster;
+  align-self: stretch;
+  border-color: rgba(216,174,86,.22);
+  background: rgba(255,255,255,.07);
+  box-shadow: 0 32px 95px rgba(0,0,0,.32);
+}
+.mergulhao-poster img {
+  height: 100%;
+  min-height: 560px;
+  object-fit: cover;
+  object-position: center top;
 }
 
 .koloa-story {
@@ -477,6 +546,88 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
   line-height: 1.72;
 }
 
+.lightbox-open { overflow: hidden; }
+.image-lightbox {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(16px, 3vw, 36px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .24s ease;
+}
+.image-lightbox.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+.image-lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(2, 9, 16, .86);
+  backdrop-filter: blur(14px);
+  cursor: zoom-out;
+}
+.image-lightbox-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 12px;
+  max-width: min(94vw, 1120px);
+  max-height: 92svh;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid rgba(240,209,140,.32);
+  background: linear-gradient(145deg, rgba(246,248,247,.08), rgba(246,248,247,.025));
+  box-shadow: 0 40px 130px rgba(0,0,0,.55);
+  transform: translateY(18px) scale(.98);
+  transition: transform .28s cubic-bezier(.2,.8,.2,1);
+}
+.image-lightbox.is-open .image-lightbox-panel {
+  transform: translateY(0) scale(1);
+}
+.image-lightbox-panel img {
+  display: block;
+  max-width: min(90vw, 1060px);
+  max-height: 82svh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: #f1ead7;
+}
+.image-lightbox-close {
+  position: absolute;
+  z-index: 2;
+  top: -14px;
+  right: -14px;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid rgba(240,209,140,.5);
+  border-radius: 50%;
+  color: var(--gold-light);
+  background: rgba(6,22,39,.94);
+  cursor: pointer;
+  font-size: 24px;
+  line-height: 1;
+}
+.image-lightbox-close:hover,
+.image-lightbox-close:focus-visible {
+  color: white;
+  outline: 0;
+  border-color: rgba(240,209,140,.9);
+}
+.image-lightbox-panel figcaption {
+  color: rgba(246,248,247,.76);
+  font-size: 11px;
+  letter-spacing: .08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .travels { background: linear-gradient(180deg, rgba(7,26,45,.84) 0%, rgba(6,22,39,.34) 22%, rgba(6,22,39,.22) 78%, rgba(6,22,39,.84) 100%); backdrop-filter: blur(2px); }
 .section-intro { display: flex; justify-content: space-between; align-items: end; margin-bottom: 60px; }
 .section-intro .section-number { display: block; margin-bottom: 25px; }
@@ -620,12 +771,15 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
     grid-template-areas:
       "copy"
       "media"
+      "poster"
       "facts";
     align-content: start;
     padding-top: 105px;
   }
   .mergulhao-copy { max-width: 760px; }
   .mergulhao-video { height: min(54svh, 520px); }
+  .mergulhao-poster img { height: auto; min-height: 0; max-height: 780px; object-fit: contain; background: #061627; }
+  .mergulhao-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .koloa-story::after { opacity: .4; }
   .koloa-shell {
     grid-template-columns: 1fr;
@@ -663,6 +817,7 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
   .mergulhao-video { height: 46svh; }
   .mergulhao-video-label { left: 15px; right: 15px; bottom: 14px; grid-template-columns: auto 1fr auto; gap: 9px; font-size: 7px; }
   .mergulhao-facts { grid-template-columns: 1fr; }
+  .mergulhao-poster { padding: 6px; }
   .mergulhao-card { min-height: auto; padding: 20px; }
   .mergulhao-card > span { margin-bottom: 14px; }
   .koloa-story { padding: 78px 20px; }
@@ -676,6 +831,11 @@ h2 { margin-bottom: 0; font-size: clamp(48px, 6vw, 92px); line-height: .96; lett
   .koloa-facts { grid-template-columns: 1fr; }
   .koloa-card { min-height: auto; padding: 21px; }
   .koloa-card > span { margin-bottom: 18px; }
+  .poster-hint { left: 14px; right: 14px; bottom: 14px; font-size: 7px; }
+  .image-lightbox { padding: 12px; }
+  .image-lightbox-panel { padding: 8px; }
+  .image-lightbox-panel img { max-width: 94vw; max-height: 82svh; }
+  .image-lightbox-close { top: 8px; right: 8px; }
   .section-intro { align-items: start; flex-direction: column; gap: 28px; }
   .section-intro > p { margin-left: 0; }
   .duck-map { min-height: 360px; }
