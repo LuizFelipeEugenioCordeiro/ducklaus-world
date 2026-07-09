@@ -259,6 +259,25 @@ document.querySelector('#app').innerHTML = `
         </article>
       </div>
     </section>
+
+    <footer class="site-footer" aria-label="Créditos e comunidade">
+      <div class="footer-card reveal">
+        <div>
+          <p class="kicker">COMUNIDADE</p>
+          <h2>Conheça o<br><em>Ducklaus.</em></h2>
+          <p>Entre no servidor oficial no Discord para acompanhar novidades, conversar com a comunidade e conhecer mais sobre o projeto.</p>
+        </div>
+
+        <a class="button button-gold footer-discord" href="https://discord.gg/MKWhwewc4m" target="_blank" rel="noopener noreferrer">
+          Entrar no Discord <span>↗</span>
+        </a>
+      </div>
+
+      <div class="footer-bottom">
+        <p>Ducklaus World · Atlas visual de espécies aquáticas</p>
+        <p>Desenvolvido por <strong>Luiz Felipe</strong></p>
+      </div>
+    </footer>
   </main>
 
   <div class="image-lightbox" data-lightbox aria-hidden="true">
