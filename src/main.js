@@ -1,5 +1,6 @@
 import './style.css'
 import introVideoUrl from './assets/videos/ducklaus-intro.mp4?url'
+import mergulhaoVideoUrl from './assets/videos/pato-mergulhao-brasileiro.mp4?url'
 
 document.querySelector('#app').innerHTML = `
   <canvas id="three-background" aria-hidden="true"></canvas>
@@ -16,7 +17,8 @@ document.querySelector('#app').innerHTML = `
 
     <nav class="nav" aria-label="Navegação principal">
       <a href="#sobre">Quem é</a>
-      <a class="nav-cta" href="#novo-capitulo">Próximo capítulo <span>↘</span></a>
+      <a href="#pato-mergulhao">Mergulhão</a>
+      <a class="nav-cta" href="#pato-mergulhao">Arquivo 002 <span>↗</span></a>
     </nav>
   </header>
 
@@ -44,7 +46,7 @@ document.querySelector('#app').innerHTML = `
           <p class="hero-description">Explore o mundo secreto dos patos, suas rotas, habitats e curiosidades.</p>
           <div class="hero-actions">
             <a class="button button-gold" href="#sobre">Entrar no Reino dos Patos <span>↓</span></a>
-            <a class="text-link" href="#novo-capitulo">Nova direção <span>↘</span></a>
+            <a class="text-link" href="#pato-mergulhao">Ver mergulhão <span>↗</span></a>
           </div>
         </div>
 
@@ -76,7 +78,57 @@ document.querySelector('#app').innerHTML = `
       </div>
     </section>
 
-    <section class="blank-stage" id="novo-capitulo" aria-label="Área reservada para o próximo capítulo"></section>
+    <section class="mergulhao-story" id="pato-mergulhao" aria-labelledby="mergulhao-title" data-scroll-video-section>
+      <div class="mergulhao-pin">
+        <div class="mergulhao-copy reveal">
+          <p class="kicker">ARQUIVO 002 · RIOS LIMPOS DO BRASIL</p>
+          <h2 id="mergulhao-title">Pato-mergulhão<br><em>brasileiro.</em></h2>
+          <p class="mergulhao-lead">O parente raro de Ducklaus: elegante, veloz no mergulho e exigente com a qualidade da água. Um pato que não aceita lagoa meia-boca.</p>
+          <p>Enquanto a página desce, o filme avança junto. A ideia é parecer um mini-documentário rolável: você explora o animal no ritmo do mouse.</p>
+        </div>
+
+        <div class="mergulhao-media reveal">
+          <video
+            class="mergulhao-video"
+            data-scroll-video="mergulhao"
+            src="${mergulhaoVideoUrl}"
+            preload="metadata"
+            muted
+            playsinline
+            disablepictureinpicture
+          ></video>
+          <div class="mergulhao-video-glass" aria-hidden="true"></div>
+          <div class="mergulhao-video-label">
+            <span>FILME 02</span>
+            <i><b data-mergulhao-progress></b></i>
+            <span data-mergulhao-status>0%</span>
+          </div>
+        </div>
+
+        <div class="mergulhao-facts" aria-label="Curiosidades sobre o pato-mergulhão brasileiro">
+          <article class="mergulhao-card glass-card reveal is-active">
+            <span>01</span>
+            <h3>Onde vive</h3>
+            <p>Prefere rios cristalinos, rasos e com correnteza, geralmente em regiões serranas com mata ciliar preservada.</p>
+          </article>
+          <article class="mergulhao-card glass-card reveal">
+            <span>02</span>
+            <h3>O que come</h3>
+            <p>Caça principalmente pequenos peixes, como lambaris, e também pode capturar insetos aquáticos e pequenos invertebrados.</p>
+          </article>
+          <article class="mergulhao-card glass-card reveal">
+            <span>03</span>
+            <h3>Superpoder</h3>
+            <p>Mergulha para buscar alimento em água limpa. Se o rio está turvo ou degradado, a vida dele fica muito mais difícil.</p>
+          </article>
+          <article class="mergulhao-card glass-card reveal">
+            <span>04</span>
+            <h3>Raridade real</h3>
+            <p>É uma das aves aquáticas mais raras e ameaçadas das Américas. No universo Ducklaus, isso é status de nobreza fluvial.</p>
+          </article>
+        </div>
+      </div>
+    </section>
   </main>
 `
 
@@ -106,7 +158,7 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element))
 
 const startStoryExperience = async () => {
-  const [{ initThreeScene }, { createLoopingVideo }] = await Promise.all([
+  const [{ initThreeScene }, { createLoopingVideo, createVideoScrubber, createScrollVideoController }] = await Promise.all([
     import('./threeScene.js'),
     import('./videoStory.js'),
   ])
@@ -117,9 +169,20 @@ const startStoryExperience = async () => {
     statusElement: document.querySelector('[data-video-status]'),
     endAt: 7.26,
   })
+  const mergulhaoScrubber = createVideoScrubber(document.querySelector('[data-scroll-video="mergulhao"]'), {
+    progressProperty: '--mergulhao-progress',
+    statusElement: document.querySelector('[data-mergulhao-status]'),
+  })
+  const destroyMergulhaoScroll = createScrollVideoController(document.querySelector('[data-scroll-video-section]'), mergulhaoScrubber, {
+    progressElement: document.querySelector('[data-mergulhao-progress]'),
+    statusElement: document.querySelector('[data-mergulhao-status]'),
+    activeSelector: '.mergulhao-card',
+  })
 
   window.addEventListener('pagehide', () => {
     introVideo.destroy()
+    destroyMergulhaoScroll()
+    mergulhaoScrubber.destroy()
     sceneController?.destroy()
   }, { once: true })
 }

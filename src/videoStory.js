@@ -3,6 +3,7 @@ const clamp = (value, min = 0, max = 1) => Math.min(max, Math.max(min, value))
 export function createLoopingVideo(video, {
   progressElement,
   statusElement,
+  progressProperty = '--intro-progress',
   startAt = 0.01,
   endAt,
 } = {}) {
@@ -19,7 +20,7 @@ export function createLoopingVideo(video, {
     }
 
     const progress = clamp((video.currentTime - startAt) / Math.max(rangeEnd - startAt, 0.01))
-    document.documentElement.style.setProperty('--intro-progress', progress)
+    if (progressProperty) document.documentElement.style.setProperty(progressProperty, progress)
     if (progressElement) progressElement.style.transform = `scaleX(${progress})`
   }
 
@@ -50,7 +51,7 @@ export function createLoopingVideo(video, {
       video.removeEventListener('loadedmetadata', handleMetadata)
       video.removeEventListener('timeupdate', updateProgress)
       video.removeEventListener('error', handleError)
-      document.documentElement.style.removeProperty('--intro-progress')
+      if (progressProperty) document.documentElement.style.removeProperty(progressProperty)
     },
   }
 }
@@ -58,6 +59,7 @@ export function createLoopingVideo(video, {
 export function createVideoScrubber(video, {
   progressElement,
   statusElement,
+  progressProperty = '--intro-progress',
   startAt = 0.01,
   endAt,
 } = {}) {
@@ -75,7 +77,7 @@ export function createVideoScrubber(video, {
     if (destroyed) return
 
     const safeProgress = reducedMotion ? 0 : clamp(progress)
-    document.documentElement.style.setProperty('--intro-progress', safeProgress)
+    if (progressProperty) document.documentElement.style.setProperty(progressProperty, safeProgress)
     if (progressElement) progressElement.style.transform = `scaleX(${safeProgress})`
 
     if (!duration || video.readyState < HTMLMediaElement.HAVE_METADATA) return
@@ -121,7 +123,56 @@ export function createVideoScrubber(video, {
       video.pause()
       video.removeAttribute('src')
       video.load()
-      document.documentElement.style.removeProperty('--intro-progress')
+      if (progressProperty) document.documentElement.style.removeProperty(progressProperty)
     },
+  }
+}
+
+export function createScrollVideoController(section, scrubber, {
+  progressElement,
+  statusElement,
+  activeSelector,
+} = {}) {
+  if (!section || !scrubber) return () => {}
+
+  const cards = activeSelector ? [...section.querySelectorAll(activeSelector)] : []
+  let frame = 0
+  let destroyed = false
+
+  const setActiveCard = (progress) => {
+    if (!cards.length) return
+    const activeIndex = Math.min(cards.length - 1, Math.floor(progress * cards.length))
+    cards.forEach((card, index) => card.classList.toggle('is-active', index === activeIndex))
+  }
+
+  const update = () => {
+    frame = 0
+    if (destroyed) return
+
+    const rect = section.getBoundingClientRect()
+    const scrollableDistance = Math.max(rect.height - window.innerHeight, 1)
+    const progress = clamp(-rect.top / scrollableDistance)
+
+    section.style.setProperty('--mergulhao-progress', progress.toFixed(4))
+    if (progressElement) progressElement.style.transform = `scaleX(${progress})`
+    if (statusElement) statusElement.textContent = `${Math.round(progress * 100)}%`
+
+    setActiveCard(progress)
+    scrubber.setProgress(progress)
+  }
+
+  const requestUpdate = () => {
+    if (!frame) frame = window.requestAnimationFrame(update)
+  }
+
+  window.addEventListener('scroll', requestUpdate, { passive: true })
+  window.addEventListener('resize', requestUpdate)
+  requestUpdate()
+
+  return () => {
+    destroyed = true
+    window.cancelAnimationFrame(frame)
+    window.removeEventListener('scroll', requestUpdate)
+    window.removeEventListener('resize', requestUpdate)
   }
 }
