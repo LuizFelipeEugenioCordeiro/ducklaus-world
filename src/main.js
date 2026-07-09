@@ -21,7 +21,7 @@ document.querySelector('#app').innerHTML = `
   </header>
 
   <main>
-    <section class="hero" id="inicio" data-scene="hero" data-progress-mode="sticky">
+    <section class="hero" id="inicio" data-scene="hero">
       <div class="hero-stage">
         <div class="hero-film" aria-hidden="true">
           <video
@@ -106,9 +106,8 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.reveal').forEach((element) => observer.observe(element))
 
 const startStoryExperience = async () => {
-  const [{ initThreeScene }, { initScrollStory }, { createLoopingVideo }] = await Promise.all([
+  const [{ initThreeScene }, { createLoopingVideo }] = await Promise.all([
     import('./threeScene.js'),
-    import('./scrollStory.js'),
     import('./videoStory.js'),
   ])
 
@@ -119,12 +118,7 @@ const startStoryExperience = async () => {
     endAt: 7.26,
   })
 
-  const destroyStory = initScrollStory({
-    onUpdate: sceneController?.setStoryState,
-  })
-
   window.addEventListener('pagehide', () => {
-    destroyStory()
     introVideo.destroy()
     sceneController?.destroy()
   }, { once: true })
